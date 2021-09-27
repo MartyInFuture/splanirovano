@@ -5,16 +5,29 @@ import SubmitButton from "../../common/submitButton/SubmitButton";
 import { Formik, Form, Field } from "formik";
 import { validationSchema } from "./validationSchema";
 import { toast } from "react-toastify";
-const initialState = {
+
+interface IInitialState {
+  email: string,
+  password: string,
+  repeatPassword: string,
+}
+
+type TOnHandleSubmit = (cred: IInitialState) => void;
+
+interface IProps {
+  repeatPassword?: boolean
+}
+
+const initialState: IInitialState = {
   email: "",
   password: "",
   repeatPassword: "",
 };
 
-const AuthForm = ({ repeatPassword = true }) => {
+const AuthForm = ({ repeatPassword = true }:IProps) => {
   const dispatch = useDispatch();
 
-  const onHandleSubmit = ({ email, password, repeatPassword }) => {
+  const onHandleSubmit: TOnHandleSubmit= ({ email, password, repeatPassword }) => {
     if (repeatPassword) {
       if (repeatPassword === password) {
         dispatch(authOperations.register({ email, password }));
