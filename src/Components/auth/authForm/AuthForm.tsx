@@ -12,7 +12,7 @@ interface IInitialState {
   repeatPassword: string,
 }
 
-type TOnHandleSubmit = (cred: IInitialState) => void;
+type TOnHandleSubmit = (cred: IInitialState) => void ;
 
 interface IProps {
   repeatPassword?: boolean

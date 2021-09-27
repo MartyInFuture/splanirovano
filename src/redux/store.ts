@@ -16,11 +16,11 @@ import {
 import thunk from 'redux-thunk';
 import storage from 'redux-persist/lib/storage';
 import authReducer from './auth/auth-slice';
-import { IAuthInitialState } from '../redux/interfaces/interfacesStore';
 import { error } from './error/error-reducer';
 import projects from './projects/projects-slice';
 import sprints from './sprints/sprints-slice';
 import tasks from './task/task-slice';
+import { IAuthInitialState } from '../redux/interfaces/interfacesStore';
 
 const authPersistConfig = {
   key: 'auth',
