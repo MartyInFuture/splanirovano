@@ -9,13 +9,49 @@ import { useParams } from 'react-router';
 import { useEffect, useState } from 'react';
 import moment from 'moment';
 
-const Chart = ({ title = 'title', open, setOpen, draw = true }) => {
-  const [labels, setLabels] = useState([]);
-  const sprints = useSelector(sprintSelectors.getSprints);
-  const tasks = useSelector(taskSelectors.getTasks);
-  const { id } = useParams();
-  const [planedHours, setPlanedHours] = useState([]);
-  const [realHovers, setRealHovers] = useState([]);
+interface IChartProps {
+  title: string;
+  open: boolean;
+  setOpen: (action: boolean) => void;
+  draw: boolean;
+}
+
+interface ISprintsTypes {
+  _id?: string;
+  id?: string;
+  title: string;
+  description: string;
+  duration: any;
+  startDate: string;
+}
+
+interface IHourWastedPerDay {
+  singleHoursWasted: number;
+}
+
+interface ITasksTypes {
+  _id?: string;
+  id?: string;
+  title: string;
+  hoursPlanned: number;
+  hoursWastedPerDay: IHourWastedPerDay[];
+  singleHoursWasted: any;
+  // description: string;
+  // duration: any;
+}
+
+const Chart = ({
+  title = 'title',
+  open,
+  setOpen,
+  draw = true,
+}: IChartProps) => {
+  const [labels, setLabels] = useState<number[]>([]);
+  const sprints: ISprintsTypes[] = useSelector(sprintSelectors.getSprints);
+  const tasks: ITasksTypes[] = useSelector(taskSelectors.getTasks);
+  const { id }: any = useParams();
+  const [planedHours, setPlanedHours] = useState<number[]>([]);
+  const [realHovers, setRealHovers] = useState<number[]>([]);
 
   useEffect(() => {
     if (draw) {
@@ -24,11 +60,12 @@ const Chart = ({ title = 'title', open, setOpen, draw = true }) => {
           const sprintId = sprint._id ?? sprint.id;
           return sprintId === id;
         });
-        const labelsArr = [0];
-        for (let i = 0; i < currentSprint.duration; i++) {
-          labelsArr.push(
-            moment(currentSprint.startDate).add(i, 'day').format('YYYY-MM-DD')
-          );
+        const labelsArr: number[] = [0];
+        for (let i = 0; i < currentSprint?.duration; i++) {
+          const newLabelArrItem: string = moment(currentSprint?.startDate)
+            .add(i, 'day')
+            .format('YYYY-MM-DD');
+          labelsArr.push(Number(newLabelArrItem));
         }
         setLabels(labelsArr);
       }
@@ -37,9 +74,9 @@ const Chart = ({ title = 'title', open, setOpen, draw = true }) => {
   useEffect(() => {
     if (tasks.length !== 0) {
       // Planned arr hours
-      let tasksTotalTime = 0;
+      let tasksTotalTime: number = 0;
       tasks.forEach((task) => (tasksTotalTime += Number(task.hoursPlanned)));
-      const tasksTotalTimeArr = [Number(tasksTotalTime)];
+      const tasksTotalTimeArr: number[] = [Number(tasksTotalTime)];
       const dayAmount = tasks[0].hoursWastedPerDay.length;
       const substractor = tasksTotalTime / dayAmount;
       let newSubstractor = substractor;
@@ -61,20 +98,26 @@ const Chart = ({ title = 'title', open, setOpen, draw = true }) => {
       setRealHovers(realHourArr);
     }
   }, [tasks]);
-  const onOverlayClick = ({ target, currentTarget }) => {
+
+  interface IOnOverlayClickTypes {
+    target: any;
+    currentTarget: any;
+  }
+
+  const onOverlayClick = ({ target, currentTarget }: IOnOverlayClickTypes) => {
     target === currentTarget && setOpen(false);
   };
   useEffect(() => {
     window.addEventListener('keydown', handleEscape);
-    const body = document.querySelector('body');
-    if (open) body.style.overflow = 'hidden';
+    const body: HTMLBodyElement | null = document.querySelector('body');
+    if (open) body!.style.overflow = 'hidden';
     return () => {
       window.removeEventListener('keydown', handleEscape);
       const body = document.querySelector('body');
-      body.style.overflow = 'auto';
+      body!.style.overflow = 'auto';
     };
   });
-  const handleEscape = (e) => e.code === 'Escape' && setOpen(false);
+  const handleEscape = (e: any) => e.code === 'Escape' && setOpen(false);
 
   const data = {
     labels: labels,
