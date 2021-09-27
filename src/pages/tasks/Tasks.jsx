@@ -48,8 +48,6 @@ const Tasks = () => {
   const [showInput, setShowInput] = useState(false);
   const [title, setTitle] = useState("");
 
-  // const currentSprint = sprints.find((project) => project._id === id);
-
   const editNameHandle = async () => {
     await setShowInput(true);
     document.querySelector("#inputChangeTitle").focus();
@@ -70,8 +68,6 @@ const Tasks = () => {
     }
     setShowInput(false);
   };
-
-  // const onHandleBlurChangeTitle = () => {};
 
   const onHandleChange = (e) => {
     const { value } = e.target;
@@ -172,6 +168,32 @@ const Tasks = () => {
                 </div>
                 <div>
                   <div className="TaskWrapper">
+                    {!showInput && (
+                      <div className="SprintTitleBtnEditWrapper">
+                        <div className="TaskTitleBtnEditWrapper">
+                          <div className="TaskTitleWrapper">
+                            <Title title={sprintName} />
+                          </div>
+                          {/* <div className="TaskTitleWrapper"></div> */}
+                          <div className="btnEditTitle">
+                            <Button
+                              icon="edit"
+                              classBtn="editDelete"
+                              onHandleClick={editNameHandle}
+                            />
+                          </div>
+                        </div>
+
+                        <div className="btnCreateTaskTablet ">
+                          <div className="btnCreateSprintTitle openModalTask btnEdit">
+                            <Button
+                              onHandleClick={() => setCloseModalTask(true)}
+                            />
+                          </div>
+                          <p className="AddTaskParagraph">Створити задачу</p>
+                        </div>
+                      </div>
+                    )}
                     {showInput && (
                       <form
                         onSubmit={changeTitleSubmit}
@@ -188,10 +210,8 @@ const Tasks = () => {
                           type="text"
                           onChange={onHandleChange}
                           id="inputChangeTitle"
-                          // onBlur={onHandleBlurChangeTitle}
                         />
                         <Button
-                          // icon={buttonIcons.edit}
                           icon="edit"
                           classBtn="editDelete"
                           title="Edit the title"
@@ -204,23 +224,21 @@ const Tasks = () => {
                     <div className="btnCreateTask ">
                       <Button onHandleClick={() => setCloseModalTask(true)} />
                     </div>
-                    <div className="btnCreateTaskTablet ">
-                      <div className="btnCreateSprintTitle openModalTask btnEdit">
-                        <Button onHandleClick={() => setCloseModalTask(true)} />
-                      </div>
-                      <p className="AddTaskParagraph">Створити задачу</p>
-                    </div>
                   </div>
-                  <div className="discrbtionHoursContainer">
+
+                  {/* <div className="discrbtionHoursContainer">
                     <p className="discrbtionHours">Заплановано годин</p>
                     <p className="discrbtionHours">Витрачено год / день</p>
                     <p className="discrbtionHours">Витрачено годин</p>
-                  </div>
+                  </div> */}
                   <div className="discrbtionHoursContainerDesktop">
-                    <p className="discrbtionHours">Задача</p>
-                    <p className="discrbtionHours">Заплановано годин</p>
-                    <p className="discrbtionHours">Витрачено год / день</p>
-                    <p className="discrbtionHours">Витрачено годин</p>
+                    <div className="discrbtionHoursContainerDesktopHours">
+                      <p className="discrbtionHours">Задача</p>
+                      <p className="discrbtionHours">Заплановано годин</p>
+                      <p className="discrbtionHours">Витрачено год / день</p>
+                      <p className="discrbtionHours">Витрачено годин</p>
+                    </div>
+
                     <div className="SearchDesktop">
                       <span className="material-icons iconSearchDesktop">
                         search

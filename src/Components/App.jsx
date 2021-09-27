@@ -75,7 +75,7 @@ const App = () => {
                   </PrivateRoute>
                 </Suspense>
               </Switch>
-              <ToastContainer autoClose={1500} />
+              <ToastContainer autoClose={3000} />
             </WrapperContainer>
           </MainContainer>
         </>

@@ -109,7 +109,7 @@ export const TaskListItemWrapper = styled.div`
   @media screen and (min-width: 768px) {
     width: 216px;
     :nth-child(2n + 1) {
-      margin-right: 20px;
+      margin-right: 10px;
     }
 
     .describtionHour {

@@ -65,9 +65,12 @@ export const patchTaskHours = createAsyncThunk(
 
       const responseObj = {
         date: response.data.day,
+        currentDate: response.data.day.currentDay,
+        hours: response.data.day.singleHoursWasted,
         wastedHours: response.data.newWastedHours,
         id: data.sprintId,
       };
+
       return responseObj;
     } catch (error) {
       return rejectWithValue(error.message);
@@ -78,13 +81,12 @@ export const patchTaskHours = createAsyncThunk(
 export const patchTitleSprint = createAsyncThunk(
   "task/patchTitleSprint",
   async (Data, { rejectWithValue }) => {
-    // console.log(data);
     try {
       const { data } = await axios.patch(
         `/sprint/title/${Data.id}`,
         Data.title
       );
-      // console.log("response", data);
+
       const response = {
         id: Data.id,
         title: data,

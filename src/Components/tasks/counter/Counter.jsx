@@ -3,17 +3,20 @@ import { CounterWrapper } from "./CounterStyled";
 import moment from "moment";
 
 const Counter = ({ data, settargetDate }) => {
-  const [counter, setcounter] = useState(1);
+  const [counter, setCounter] = useState(1);
   const [startDate, setStartDate] = useState("");
   const [duration, setDuration] = useState(null);
   const targetDate = moment(startDate)
     .add(counter - 1, "day")
     .format("DD MM YYYY");
-  settargetDate(
-    moment(startDate)
-      .add(counter - 1, "day")
-      .format("YYYY-MM-DD")
-  );
+
+  useEffect(() => {
+    settargetDate(
+      moment(startDate)
+        .add(counter - 1, "day")
+        .format("YYYY-MM-DD")
+    );
+  }, [counter, startDate]);
 
   useEffect(() => {
     if (data) {
@@ -24,15 +27,13 @@ const Counter = ({ data, settargetDate }) => {
 
   const increment = () => {
     if (counter !== duration) {
-      const resIncrement = counter + 1;
-      setcounter(resIncrement);
+      setCounter(counter + 1);
     }
   };
 
   const decrement = () => {
     if (counter !== 1) {
-      const resDecrement = counter - 1;
-      setcounter(resDecrement);
+      setCounter(counter - 1);
     }
   };
 
