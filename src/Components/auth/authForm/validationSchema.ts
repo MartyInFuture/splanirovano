@@ -17,7 +17,4 @@ const validationSchema = yup.object().shape({
 });
 
 export { validationSchema };
-const ErrorValidation = ({ touched, message }) => {
-  return <>{!touched ? message && <div>{message}</div> : <div>&nbsp;</div>}</>;
-};
-export default ErrorValidation;
+
