@@ -1,9 +1,11 @@
 
+
 import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { resetErrorAction } from "../error/error-action";
 import { setErrorStatus } from "../../helpers/function";
 import { projectLogOut } from "../projects/projects-slice";
+import RootState, { AppDispatch } from "./../store";
 
 interface ISubmitData {
   email: string;
@@ -28,7 +30,7 @@ const logIn = createAsyncThunk(
       const { data } = await axios.post("/auth/login", credentials);
       token.set(data.accessToken);
       return data;
-    } catch (error) {
+    } catch (error:any) {
       return rejectWithValue(setErrorStatus(error));
     } finally {
       dispatch(resetErrorAction());
@@ -44,7 +46,7 @@ const register = createAsyncThunk(
       await dispatch(logIn(credentials));
 
       return data;
-    } catch (error) {
+    } catch (error:any) {
       return rejectWithValue(setErrorStatus(error));
       //
     } finally {
@@ -60,7 +62,7 @@ const logOut = createAsyncThunk(
       await axios.post("/auth/logout");
 
       dispatch(projectLogOut());
-    } catch (error) {
+    } catch (error:any) {
       return rejectWithValue(setErrorStatus(error));
     } finally {
       dispatch(resetErrorAction());
@@ -68,17 +70,19 @@ const logOut = createAsyncThunk(
   }
 );
 
-const refreshToken = createAsyncThunk(
+// type TRefreshToken = (typeOperation:string) => (cb: ()=> void | {}) => {}
+// функция для завершения работы
+const refreshToken: any = createAsyncThunk<string, ()=> any, {state: RootState, dispatch: AppDispatch }>(
   "auth/refreshToken",
-  async (cb, { getState, rejectWithValue, dispatch }) => {
+  async (cb, { getState , rejectWithValue, dispatch }) => {
     const state = getState();
     const persistedRefreshToken = state.auth.refreshToken;
     const sid = state.auth.sid;
 
     if (persistedRefreshToken === null) {
       token.unset();
-
-      return rejectWithValue();
+      // return rejectWithValue();
+      return dispatch(logOut())
     }
     token.set(persistedRefreshToken);
     try {
