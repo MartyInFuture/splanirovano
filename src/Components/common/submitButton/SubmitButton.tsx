@@ -1,9 +1,12 @@
 import { ButtonSubmitWrapper } from "./SubmitButtonStyled";
 
-const SubmitButton = ({
-  onHandleSubmit = null,
+interface Props {  
+  nameBtn: string
+}
+
+const SubmitButton = ({  
   nameBtn = "Зареєструватися",
-}) => {
+}: Props) => {
   return (
     <ButtonSubmitWrapper>
       <button type="submit" className="btnSubCommon">
