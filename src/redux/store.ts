@@ -1,5 +1,8 @@
-
-import { AsyncThunk, AsyncThunkPayloadCreator, configureStore } from "@reduxjs/toolkit";
+import {
+  AsyncThunk,
+  AsyncThunkPayloadCreator,
+  configureStore,
+} from '@reduxjs/toolkit';
 import {
   persistStore,
   persistReducer,
@@ -9,20 +12,20 @@ import {
   PERSIST,
   PURGE,
   REGISTER,
-} from "redux-persist";
-import thunk from "redux-thunk";
-import storage from "redux-persist/lib/storage";
-import authReducer from "./auth/auth-slice";
-import { error } from "./error/error-reducer";
-import projects from "./projects/projects-slice";
-import sprints from "./sprints/sprints-slice";
-import tasks from "./task/task-slice";
+} from 'redux-persist';
+import thunk from 'redux-thunk';
+import storage from 'redux-persist/lib/storage';
+import authReducer from './auth/auth-slice';
+import { error } from './error/error-reducer';
+import projects from './projects/projects-slice';
+import sprints from './sprints/sprints-slice';
+import tasks from './task/task-slice';
 import { IAuthInitialState } from '../redux/interfaces/interfacesStore';
 
 const authPersistConfig = {
-  key: "auth",
+  key: 'auth',
   storage,
-  whitelist: ["token", "refreshToken", "sid", "isLoggedIn", "user"],
+  whitelist: ['token', 'refreshToken', 'sid', 'isLoggedIn', 'user'],
 };
 
 // interface IStore {
@@ -54,7 +57,7 @@ const authPersistConfig = {
 //     Returned,
 //     ThunkArg = void,
 //     ThunkApiConfig extends AsyncThunkConfig = {
-//       state: IStore; 
+//       state: IStore;
 //     }
 //   >(
 //     typePrefix: string,
@@ -83,7 +86,7 @@ export const store = configureStore({
         ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
       },
     }).concat(thunk),
-  devTools: process.env.NODE_ENV === "development",
+  devTools: process.env.NODE_ENV === 'development',
 });
 
 export const persistor = persistStore(store);
