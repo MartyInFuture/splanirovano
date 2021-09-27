@@ -46,7 +46,7 @@ const Chart = ({
   setOpen,
   draw = true,
 }: IChartProps) => {
-  const [labels, setLabels] = useState<number[]>([]);
+  const [labels, setLabels] = useState<string[]>([]);
   const sprints: ISprintsTypes[] = useSelector(sprintSelectors.getSprints);
   const tasks: ITasksTypes[] = useSelector(taskSelectors.getTasks);
   const { id }: any = useParams();
@@ -60,12 +60,12 @@ const Chart = ({
           const sprintId = sprint._id ?? sprint.id;
           return sprintId === id;
         });
-        const labelsArr: number[] = [0];
+        const labelsArr: string[] = ['0'];
         for (let i = 0; i < currentSprint?.duration; i++) {
           const newLabelArrItem: string = moment(currentSprint?.startDate)
             .add(i, 'day')
             .format('YYYY-MM-DD');
-          labelsArr.push(Number(newLabelArrItem));
+          labelsArr.push(newLabelArrItem);
         }
         setLabels(labelsArr);
       }
