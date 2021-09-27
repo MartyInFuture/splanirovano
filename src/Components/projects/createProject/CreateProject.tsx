@@ -1,7 +1,12 @@
 import Modal from '../../common/modal/Modal';
 import AddProjectModal from './AddProjectModal';
 
-const CreateProject = ({ closeModal, setCloseModal }) => {
+interface ICreateProjectProps {
+  closeModal: boolean;
+  setCloseModal: (active: boolean) => void;
+}
+
+const CreateProject = ({ closeModal, setCloseModal }: ICreateProjectProps) => {
   return (
     <Modal
       nameForm="Створення проекту"

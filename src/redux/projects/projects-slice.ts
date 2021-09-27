@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import projectOperations, { updateProjectTitle } from './projects-operations';
 
-interface IItem {
+export interface IItem {
   _id?: string;
   id: string;
   title: string;

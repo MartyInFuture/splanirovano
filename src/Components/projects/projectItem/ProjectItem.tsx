@@ -1,11 +1,17 @@
-import { ProjectItemStyled } from "./ProjectItemStyled";
-import Button from "../../common/button/Button";
-import { Link } from "react-router-dom";
-import buttonIcons from "../../../configs/buttonIcons.json";
-import { useDispatch } from "react-redux";
-import projectOperations from "../../../redux/projects/projects-operations";
+import { ProjectItemStyled } from './ProjectItemStyled';
+import Button from '../../common/button/Button';
+import { Link } from 'react-router-dom';
+import buttonIcons from '../../../configs/buttonIcons.json';
+import { useDispatch } from 'react-redux';
+import projectOperations from '../../../redux/projects/projects-operations';
+import { IItem } from '../../../redux/projects/projects-slice';
 
-const ProjectItem = ({ project, background }) => {
+interface IProjectItemState {
+  project: IItem;
+  background?: string;
+}
+
+const ProjectItem = ({ project, background }: IProjectItemState) => {
   const dispatch = useDispatch();
 
   const deleteProject = () => {
