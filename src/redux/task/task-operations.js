@@ -12,7 +12,7 @@ export const addTask = createAsyncThunk(
       dispatch(
         getError({
           error,
-          cb: () => addTask(),
+          cb: () => addTask({ sprintId, task }),
           operationType: "sprint/addSprint",
         })
       );
@@ -32,7 +32,7 @@ export const getSprintsTasks = createAsyncThunk(
       dispatch(
         getError({
           error,
-          cb: () => getSprintsTasks(),
+          cb: () => getSprintsTasks(sprintId),
           operationType: "task/getTAsks",
         })
       );

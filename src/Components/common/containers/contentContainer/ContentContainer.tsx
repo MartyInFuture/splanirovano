@@ -1,6 +1,10 @@
 import { Container } from "./ContentContainerStyled";
 
-const ContentContainer = ({ children }) => {
+interface IProps {
+  children?: JSX.Element;
+}
+
+const ContentContainer = ({ children }: IProps) => {
   return <Container>{children}</Container>;
 };
 

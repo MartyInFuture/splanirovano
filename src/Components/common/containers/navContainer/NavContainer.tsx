@@ -1,6 +1,10 @@
 import { Container } from "./NavContainerStyled";
 
-const NavContainer = ({ children }) => {
+interface IProps {
+  children?: JSX.Element;
+}
+
+const NavContainer = ({ children }: IProps) => {
   return <Container>{children}</Container>;
 };
 

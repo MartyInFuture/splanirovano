@@ -1,6 +1,9 @@
 import { Wrapper } from "./WrapperContainerStyled";
 
-const WrapperContainer = ({ children }) => {
+interface IProps {
+  children?: JSX.Element;
+}
+const WrapperContainer = ({ children }: IProps) => {
   return <Wrapper>{children}</Wrapper>;
 };
 

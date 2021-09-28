@@ -1,8 +1,8 @@
-import { useSelector } from 'react-redux';
-import { Route, Redirect } from 'react-router-dom';
-import { authSelectors } from '../../redux/auth';
+import { useSelector } from "react-redux";
+import { Route, Redirect } from "react-router-dom";
+import { authSelectors } from "../../redux/auth";
 
-const PrivateRoute = ({ children, redirectTo = '/login', ...props }) => {
+const PrivateRoute = ({ children, redirectTo = "/login", ...props }) => {
   const isLogedIn = useSelector(authSelectors.getIsLoggedIn);
 
   return (

@@ -2,7 +2,12 @@ import { useDispatch } from "react-redux";
 import { authOperations } from "../../../redux/auth";
 import { HeaderMenuStyled } from "./HeaderMenuStyled";
 
-const HeaderMenu = ({ userEmail = "marty", icon = "logout" }) => {
+interface IProps {
+  userEmail?: string | null;
+  icon?: string
+}
+
+const HeaderMenu = ({ userEmail, icon = "logout" }: IProps) => {
   const dispatch = useDispatch();
 
   const onHandleLogOut = () => {
