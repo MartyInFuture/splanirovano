@@ -3,7 +3,19 @@ import { colors } from '../../../configs/background.json';
 import { NavLink } from 'react-router-dom';
 import { List } from './NavListStyled';
 
-const NavList = ({ title, list, path }) => {
+type ListId = {
+  title: string;
+  _id?: string;
+  id?: string;
+}
+
+interface Props{
+  title: string;
+  list: ListId[];
+  path?: string;
+}
+
+const NavList = ({ title, list, path }: Props) => {
   return (
     <List>
       {list?.map((item) => (
