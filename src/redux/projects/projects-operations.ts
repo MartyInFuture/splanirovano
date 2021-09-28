@@ -63,9 +63,11 @@ const deleteProject = createAsyncThunk(
   }
 );
 
+type TEmail = { email: string };
+
 interface IAddMemberData {
   id: string;
-  email: string;
+  email: string | TEmail;
 }
 
 const addMember = createAsyncThunk(

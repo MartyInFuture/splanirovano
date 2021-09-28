@@ -5,28 +5,37 @@ import { WrapperForm } from "./MembersFormStyled";
 import MembersList from "./MembersList";
 import { useParams } from "react-router-dom";
 import projectOperations from "../../../redux/projects/projects-operations";
+import RootState from "../../../redux/store";
+
+type TEmail = string
+
+interface IId {
+  id: string;
+}
 
 const MembersForm = () => {
-  const [email, setEmail] = useState("");
+  const [email, setEmail] = useState<TEmail>("");
 
-  const { id } = useParams();
+  const { id } = useParams<IId>();
 
-  const handleChange = (e) => {
-    setEmail(e.currentTarget.value);
+  const handleChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(evt.currentTarget.value);
   };
 
-  const members = useSelector((state) => {
+  type IMembers = string[] | any;  
+
+  const members:IMembers  = useSelector<RootState>((state) => {
     return state.projects.items.filter((project) => {
       const projectId = project._id ?? project.id;
       return projectId === id;
     })[0].members;
   });
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch();  
 
-  const onHandleSubmit = (e) => {
-    e.preventDefault();
-    dispatch(projectOperations.addMember({ id, email: { email } }));
+  const onHandleSubmit = (evt:React.FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();   
+    dispatch(projectOperations.addMember({ id, email: {email} }));
     setEmail("");
   };
 
