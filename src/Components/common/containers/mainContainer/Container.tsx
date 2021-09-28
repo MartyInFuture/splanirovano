@@ -1,6 +1,9 @@
 import { Container } from "./ContainerStyled";
+interface IProps {
+  children?: JSX.Element;
+}
 
-const MainContainer = ({ children }) => {
+const MainContainer = ({ children }: IProps) => {
   return <Container>{children}</Container>;
 };
 

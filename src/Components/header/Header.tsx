@@ -9,7 +9,7 @@ import { Container } from "../common/containers/mainContainer/ContainerStyled";
 
 const Header = () => {
   const isLoggedIn = useSelector(authSelectors.getIsLoggedIn);
-  const userEmail = useSelector(authSelectors.getUserEmail);
+  const userEmail= useSelector(authSelectors.getUserEmail);
 
   return (
     <HeaderStyled>
