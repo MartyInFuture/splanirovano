@@ -1,37 +1,63 @@
-import Chart from "../../Components/chart/Chart";
-import { useLocation } from "react-router";
-import { useState, useEffect } from "react";
-import Button from "../../Components/common/button/Button";
-import TaskList from "../../Components/tasks/taskList/TaskList";
-import Title from "../../Components/common/title/Title";
-import Counter from "../../Components/tasks/counter/Counter";
-import ContentContainer from "../../Components/common/containers/contentContainer/ContentContainer";
-import { TasksStyled } from "./TasksStyled";
-import "material-icons/iconfont/material-icons.css";
-import NavMenu from "../../Components/navMenu/NavMenu";
-import NavContainer from "../../Components/common/containers/navContainer/NavContainer";
-import CreateProject from "../../Components/projects/createProject/CreateProject";
-import CreateTask from "../../Components/tasks/createTask/CreateTask";
-import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
-import { token } from "../../redux/auth/auth-operations";
-import { authSelectors } from "../../redux/auth";
-import { getProjectsSprints } from "../../redux/sprints/sprints-operations";
-import projectOperations from "../../redux/projects/projects-operations";
-import sprintSelectors from "../../redux/sprints/sprints-selectors";
-import projectSelectors from "../../redux/projects/projects-selectors";
-import taskSelectors from "../../redux/task/task-selectors";
-import { patchTitleSprint } from "../../redux/task/task-operations";
-import { Redirect } from "react-router";
-import { toast } from "react-toastify";
-import { sprintNameTitleInterface, sprintNameInterface, sprintInterface } from '../../Components/tasks/taskInterfaces/taskInterfaces'
+import Chart from '../../Components/chart/Chart';
+import { useLocation } from 'react-router';
+import { useState, useEffect } from 'react';
+import Button from '../../Components/common/button/Button';
+import TaskList from '../../Components/tasks/taskList/TaskList';
+import Title from '../../Components/common/title/Title';
+import Counter from '../../Components/tasks/counter/Counter';
+import ContentContainer from '../../Components/common/containers/contentContainer/ContentContainer';
+import { TasksStyled } from './TasksStyled';
+import 'material-icons/iconfont/material-icons.css';
+import NavMenu from '../../Components/navMenu/NavMenu';
+import NavContainer from '../../Components/common/containers/navContainer/NavContainer';
+import CreateProject from '../../Components/projects/createProject/CreateProject';
+import CreateTask from '../../Components/tasks/createTask/CreateTask';
+import { useDispatch, useSelector } from 'react-redux';
+import { useParams } from 'react-router-dom';
+import { token } from '../../redux/auth/auth-operations';
+import { authSelectors } from '../../redux/auth';
+import { getProjectsSprints } from '../../redux/sprints/sprints-operations';
+import projectOperations from '../../redux/projects/projects-operations';
+import sprintSelectors from '../../redux/sprints/sprints-selectors';
+import projectSelectors from '../../redux/projects/projects-selectors';
+import taskSelectors from '../../redux/task/task-selectors';
+import { patchTitleSprint } from '../../redux/task/task-operations';
+import { Redirect } from 'react-router';
+import { toast } from 'react-toastify';
+// import {
+//   // sprintNameTitleInterface,
+//   // sprintNameInterface,
+//   sprintInterface,
+// } from '../../Components/tasks/taskInterfaces/taskInterfaces';
+
+// interface sprintNameTitleInterface {
+//   id: string;
+//   title: string;
+// }
+
+interface sprintNameInterface {
+  id: string;
+  title: string;
+}
+
+interface sprintInterface {
+  tasks: string[];
+  _id: string;
+  id?: string;
+  title: string;
+  startDate: string;
+  endDate: string;
+  duration: number;
+  projectId: string;
+  __v: number;
+}
 
 const Tasks = () => {
-  const [filterText, setfilterText] = useState("");
-  const [sprintName, setSprintName] = useState("");
+  const [filterText, setfilterText] = useState('');
+  const [sprintName, setSprintName] = useState('');
   const [open, setOpen] = useState(false);
   const [closeModalTask, setCloseModalTask] = useState(false);
-  const [targetDate, settargetDate] = useState("");
+  const [targetDate, settargetDate] = useState('');
   const [sprint, setSprint] = useState(null);
   const [draw, setDraw] = useState(false);
 
@@ -44,48 +70,41 @@ const Tasks = () => {
   const projects = useSelector(projectSelectors.getProjects);
 
   const location = useLocation();
-  const { id }: string = useParams();
+  const { id }: any = useParams();
   const dispatch = useDispatch();
   const [showInput, setShowInput] = useState(false);
-  const [title, setTitle] = useState("");
+  const [title, setTitle] = useState('');
 
   const editNameHandle = async () => {
     await setShowInput(true);
-    const inputChangeTitle: any | null = document.querySelector("#inputChangeTitle");
+    const inputChangeTitle: any | null =
+      document.querySelector('#inputChangeTitle');
     inputChangeTitle!.focus();
   };
 
   const changeTitleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
-    if (sprintName !== title || title !== "") {
+
+    if (sprintName !== title || title !== '') {
       const obj: sprintNameInterface = {
-          id,
-          title: {
-            title,
-          },
-        }
-      dispatch(
-        patchTitleSprint(obj)
-      );
+        id,
+        title,
+      };
+      dispatch(patchTitleSprint(obj));
     }
     setShowInput(false);
   };
 
   const changeTitleClickSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (sprintName !== title || title !== "") {
+    if (sprintName !== title || title !== '') {
       const obj: sprintNameInterface = {
-          id,
-          title: {
-            title,
-          },
-        }
-      dispatch(
-        patchTitleSprint(obj)
-      );
+        id,
+        title,
+      };
+      dispatch(patchTitleSprint(obj));
     }
     setShowInput(false);
-  }
+  };
 
   const onHandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -100,12 +119,12 @@ const Tasks = () => {
     if (projects.length !== 0) {
       const project = projects.find((item) => {
         const itemId = item.id ?? item._id;
-        const projectId = location.pathname.split("/")[2];
+        const projectId = location.pathname.split('/')[2];
         return itemId === projectId;
       });
       if (project === undefined) {
         setRedirect(true);
-        toast.warning("Ви не є учасником цього проекту!");
+        toast.warning('Ви не є учасником цього проекту!');
       }
     }
   }, [projects]);
@@ -113,7 +132,7 @@ const Tasks = () => {
   useEffect(() => {
     token.set(isAuth);
     dispatch(projectOperations.getProjects());
-    const projectId = location.pathname.split("/")[2];
+    const projectId = location.pathname.split('/')[2];
     isAuth && dispatch(getProjectsSprints(projectId));
   }, [dispatch, id, isAuth, location.pathname]);
   useEffect(() => {
@@ -124,7 +143,7 @@ const Tasks = () => {
       });
       if (sprint === undefined) {
         setRedirect(true);
-        toast.warning("Ви не є учасником цього проекту!");
+        toast.warning('Ви не є учасником цього проекту!');
       } else {
         setDraw(true);
       }
@@ -146,7 +165,7 @@ const Tasks = () => {
     }
   }, [sprintsArr]);
 
-  const projectId = location.pathname.split("/")[2];
+  const projectId = location.pathname.split('/')[2];
   const filterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const text = e.target.value;
     const Filter = text.toLowerCase();
@@ -217,8 +236,8 @@ const Tasks = () => {
                         onSubmit={changeTitleSubmit}
                         className={
                           showInput
-                            ? "changeTitleFormActive"
-                            : "changeTitleForm"
+                            ? 'changeTitleFormActive'
+                            : 'changeTitleForm'
                         }
                       >
                         <input
@@ -232,9 +251,6 @@ const Tasks = () => {
                         <Button
                           icon="edit"
                           classBtn="editDelete"
-                          title="Edit the title"
-                          type="submit"
-                          className="buttonChange"
                           onHandleClick={changeTitleClickSubmit}
                         />
                       </form>

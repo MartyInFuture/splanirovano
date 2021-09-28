@@ -10,7 +10,7 @@ import { useEffect, useState } from 'react';
 import moment from 'moment';
 
 interface IChartProps {
-  title: string;
+  title?: string;
   open: boolean;
   setOpen: (action: boolean) => void;
   draw: boolean;
