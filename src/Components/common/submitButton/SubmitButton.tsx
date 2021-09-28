@@ -1,7 +1,8 @@
 import { ButtonSubmitWrapper } from "./SubmitButtonStyled";
 
 interface Props {  
-  nameBtn: string
+  nameBtn: string;
+  className?: string;
 }
 
 const SubmitButton = ({  

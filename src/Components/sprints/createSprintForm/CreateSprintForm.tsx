@@ -8,14 +8,22 @@ import { WrapperForm } from "./CreateSprintFormStyled";
 import moment from "moment";
 import { useLocation } from "react-router";
 
-const CreateSprintForm = ({ setOpenModal }) => {
-  const [name, setName] = useState("");
-  const [duration, setDuration] = useState("");
-  const [isActivelastDate, setIsActiveLastDate] = useState(true);
-  const location = useLocation();
-  const projectId = location.pathname.split("/")[2];
+interface Props {
+  setOpenModal: (active: boolean) => void;
+}
+type TName = string;
+type TDuration = number;
+type TisActivelastDate = boolean;
 
-  const handleChange = (e) => {
+
+const CreateSprintForm = ({ setOpenModal }: Props) => {
+  const [name, setName] = useState<TName>("");
+  const [duration, setDuration] = useState<TDuration | string>("");
+  const [isActivelastDate, setIsActiveLastDate] = useState<TisActivelastDate>(true);
+  const location = useLocation();
+  const projectId: string = location.pathname.split("/")[2];
+
+  const handleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     switch (name) {
       case "name":
@@ -31,7 +39,7 @@ const CreateSprintForm = ({ setOpenModal }) => {
 
   const dispatch = useDispatch();
 
-  const onHandleSubmit = (e) => {
+  const onHandleSubmit = (e:React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const formatDate = moment(startDate).format("YYYY-M-D");
     dispatch(
@@ -47,11 +55,11 @@ const CreateSprintForm = ({ setOpenModal }) => {
     setOpenModal(false);
     setName("");
   };
-  const changeActiveDate = (e) => {
+  const changeActiveDate = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
     setIsActiveLastDate(!isActivelastDate);
   };
-  const [startDate, setStartDate] = useState(new Date());
+  const [startDate, setStartDate] = useState<Date>(new Date());
 
   return (
     <WrapperForm>
@@ -85,8 +93,8 @@ const CreateSprintForm = ({ setOpenModal }) => {
               className="date"
               name="date"
               selected={startDate}
-              onChange={(date) => setStartDate(date)}
-              minDate={isActivelastDate && new Date()}
+              onChange={(date: Date) => setStartDate(date!)}
+              minDate={isActivelastDate && new Date() }
             />
           </label>
           <label>

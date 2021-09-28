@@ -2,17 +2,26 @@ import axios from "axios";
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getError } from "../error/error-handler";
 
+interface IprojectId{
+  projectId: string;
+  sprintData: {
+          title: string,
+          endDate: string | Date,
+          duration: string | number,
+        },
+}
+
 export const addSprint = createAsyncThunk(
   "sprint/addSprint",
-  async ({ projectId, sprintData }, { dispatch, rejectWithValue }) => {
+  async ({ projectId, sprintData }:IprojectId , { dispatch, rejectWithValue }) => {
     try {
       const { data } = await axios.post(`/sprint/${projectId}`, sprintData);
       return data;
-    } catch (error) {
+    } catch (error: any) {
       dispatch(
         getError({
           error,
-          cb: () => addSprint(),
+          cb: () => addSprint({ projectId, sprintData }),
           operationType: "sprint/addSprint",
         })
       );
@@ -27,7 +36,7 @@ export const getProjectsSprints = createAsyncThunk(
     try {
       const { data } = await axios.get(`/sprint/${projectId}`);
       return data;
-    } catch (error) {
+    } catch (error: any) {
       dispatch(
         getError({
           error,
@@ -42,15 +51,15 @@ export const getProjectsSprints = createAsyncThunk(
 
 export const changeSprintsTitle = createAsyncThunk(
   "sprint/changeTitle",
-  async (sprintId, { dispatch, rejectWithValue }) => {
+  async (sprintId:string, { dispatch, rejectWithValue }) => {
     try {
       const { data } = await axios.patch(sprintId);
       return data;
-    } catch (error) {
+    } catch (error:any) {
       dispatch(
         getError({
           error,
-          cb: () => changeSprintsTitle(),
+          cb: () => changeSprintsTitle(sprintId),
           operationType: "sprint/changeTitle",
         })
       );
@@ -65,7 +74,7 @@ export const deleteSprint = createAsyncThunk(
     try {
       await axios.delete(`/sprint/${sprintId}`);
       return sprintId;
-    } catch (error) {
+    } catch (error:any) {
       dispatch(
         getError({
           error,
