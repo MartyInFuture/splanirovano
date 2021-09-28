@@ -15,7 +15,7 @@ interface ISubmitData {
 axios.defaults.baseURL = "https://sbc-backend.goit.global";
 
 export const token = {
-  set(token:string) {
+  set(token:string | null) {
     axios.defaults.headers.common.Authorization = `Bearer ${token}`;
   },
   unset() {

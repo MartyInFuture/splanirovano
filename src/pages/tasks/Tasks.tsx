@@ -43,33 +43,47 @@ const Tasks = () => {
   const projects = useSelector(projectSelectors.getProjects);
 
   const location = useLocation();
-  const { id } = useParams();
+  const { id }: string = useParams();
   const dispatch = useDispatch();
   const [showInput, setShowInput] = useState(false);
   const [title, setTitle] = useState("");
 
   const editNameHandle = async () => {
     await setShowInput(true);
-    document.querySelector("#inputChangeTitle").focus();
+    const inputChangeTitle: Element | null = document.querySelector("#inputChangeTitle");
+    inputChangeTitle!.focus();
   };
 
-  const changeTitleSubmit = (e) => {
+  const changeTitleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    
+
+    interface sprintNameTitleInterface {
+      title: string;
+    }
+
+    interface sprintNameInterface {
+      id: string;
+      title: sprintNameTitleInterface;
+    }
+
+    
 
     if (sprintName !== title || title !== "") {
-      dispatch(
-        patchTitleSprint({
+      const obj: sprintNameInterface = {
           id,
           title: {
             title,
           },
-        })
+        }
+      dispatch(
+        patchTitleSprint(obj)
       );
     }
     setShowInput(false);
   };
 
-  const onHandleChange = (e) => {
+  const onHandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setTitle(value);
   };
@@ -129,7 +143,7 @@ const Tasks = () => {
   }, [sprintsArr]);
 
   const projectId = location.pathname.split("/")[2];
-  const filterChange = (e) => {
+  const filterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const text = e.target.value;
     const Filter = text.toLowerCase();
     setfilterText(Filter);
