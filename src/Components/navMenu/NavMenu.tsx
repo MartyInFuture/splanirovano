@@ -6,7 +6,19 @@ import CreateProject from "../projects/createProject/CreateProject"
 import CreateSprint from "../sprints/createSprint/CreateSprint"
 import { useState } from "react"
 
-const NavMenu = ({ title, list, path, linkTo = "/" }) => {
+type List = {
+  title: string;
+  id: string;
+}
+
+interface Props{
+  title: string;
+  list: List[];
+  path?: string;
+  linkTo?: string
+}
+
+const NavMenu = ({ title, list, path, linkTo = "/" }:Props) => {
   const [closeModalProject, setCloseModalProject] = useState(false)
   const [openModalSprints, setOpenModalSprints] = useState(false)
 
