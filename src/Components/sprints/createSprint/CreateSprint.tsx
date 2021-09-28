@@ -1,7 +1,12 @@
 import Modal from '../../common/modal/Modal';
 import CreateSprintForm from '../createSprintForm/CreateSprintForm';
 
-const CreateSprint = ({ closeModal, setCloseModal }) => {
+interface Props{
+  closeModal: boolean;
+  setCloseModal: (active:boolean) => void;
+}
+
+const CreateSprint = ({ closeModal, setCloseModal }:Props) => {
   return (
     <Modal
       nameForm="Створення спринта"
