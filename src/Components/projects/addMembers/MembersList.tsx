@@ -1,4 +1,9 @@
-const MembersList = ({ members }) => {
+
+interface Props {
+  members: string[];
+}
+
+const MembersList = ({ members } :Props) => {
   return (
     <ul>
       {members?.map((member) => (
