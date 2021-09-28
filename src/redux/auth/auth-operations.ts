@@ -1,9 +1,6 @@
-
-
+import { setErrorStatus } from './../../helpers/function';
 import axios from "axios";
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { resetErrorAction } from "../error/error-action";
-import { setErrorStatus } from "../../helpers/function";
+import { AsyncThunkAction, createAsyncThunk } from "@reduxjs/toolkit";
 import { projectLogOut } from "../projects/projects-slice";
 import RootState, { AppDispatch } from "./../store";
 
@@ -25,16 +22,14 @@ export const token = {
 
 const logIn = createAsyncThunk(
   "auth/login",
-  async (credentials: ISubmitData, { rejectWithValue, dispatch }) => {
+  async (credentials: ISubmitData, { rejectWithValue, dispatch}) => {
     try {
       const { data } = await axios.post("/auth/login", credentials);
       token.set(data.accessToken);
       return data;
     } catch (error:any) {
       return rejectWithValue(setErrorStatus(error));
-    } finally {
-      dispatch(resetErrorAction());
-    }
+    } 
   }
 );
 
@@ -48,10 +43,7 @@ const register = createAsyncThunk(
       return data;
     } catch (error:any) {
       return rejectWithValue(setErrorStatus(error));
-      //
-    } finally {
-      dispatch(resetErrorAction());
-    }
+    } 
   }
 );
 
@@ -64,9 +56,7 @@ const logOut = createAsyncThunk(
       dispatch(projectLogOut());
     } catch (error:any) {
       return rejectWithValue(setErrorStatus(error));
-    } finally {
-      dispatch(resetErrorAction());
-    }
+    } 
   }
 );
 
@@ -74,7 +64,7 @@ const logOut = createAsyncThunk(
 // функция для завершения работы
 const refreshToken: any = createAsyncThunk<string, ()=> any, {state: RootState, dispatch: AppDispatch }>(
   "auth/refreshToken",
-  async (cb, { getState , rejectWithValue, dispatch }) => {
+  async (cb, { getState, dispatch }) => {
     const state = getState();
     const persistedRefreshToken = state.auth.refreshToken;
     const sid = state.auth.sid;
