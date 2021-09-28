@@ -24,6 +24,7 @@ import taskSelectors from "../../redux/task/task-selectors";
 import { patchTitleSprint } from "../../redux/task/task-operations";
 import { Redirect } from "react-router";
 import { toast } from "react-toastify";
+import { sprintNameTitleInterface, sprintNameInterface, sprintInterface } from '../../Components/tasks/taskInterfaces/taskInterfaces'
 
 const Tasks = () => {
   const [filterText, setfilterText] = useState("");
@@ -50,25 +51,13 @@ const Tasks = () => {
 
   const editNameHandle = async () => {
     await setShowInput(true);
-    const inputChangeTitle: Element | null = document.querySelector("#inputChangeTitle");
+    const inputChangeTitle: any | null = document.querySelector("#inputChangeTitle");
     inputChangeTitle!.focus();
   };
 
   const changeTitleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
-
-    interface sprintNameTitleInterface {
-      title: string;
-    }
-
-    interface sprintNameInterface {
-      id: string;
-      title: sprintNameTitleInterface;
-    }
-
-    
-
     if (sprintName !== title || title !== "") {
       const obj: sprintNameInterface = {
           id,
@@ -83,12 +72,27 @@ const Tasks = () => {
     setShowInput(false);
   };
 
+  const changeTitleClickSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (sprintName !== title || title !== "") {
+      const obj: sprintNameInterface = {
+          id,
+          title: {
+            title,
+          },
+        }
+      dispatch(
+        patchTitleSprint(obj)
+      );
+    }
+    setShowInput(false);
+  }
+
   const onHandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setTitle(value);
   };
 
-  const Sprint = sprints.filter((sprint) => {
+  const Sprint = sprints.filter((sprint: sprintInterface) => {
     const sprintId = sprint._id ?? sprint.id;
     return sprintId === id;
   });
@@ -114,7 +118,7 @@ const Tasks = () => {
   }, [dispatch, id, isAuth, location.pathname]);
   useEffect(() => {
     if (sprints.length !== 0) {
-      const sprint = sprints.find((item) => {
+      const sprint = sprints.find((item: sprintInterface) => {
         const itemId = item.id ?? item._id;
         return itemId === id;
       });
@@ -231,7 +235,7 @@ const Tasks = () => {
                           title="Edit the title"
                           type="submit"
                           className="buttonChange"
-                          onHandleClick={changeTitleSubmit}
+                          onHandleClick={changeTitleClickSubmit}
                         />
                       </form>
                     )}
