@@ -2,12 +2,12 @@ import styled from "styled-components";
 
 export const TasksStyled = styled.div`
   width: 100%;
-  /* .TitleWrapper {
+
+  .TaskTitleBtnEditWrapper {
     display: flex;
-    align-items: center;
-  } */
+  }
+
   .inputChangeTitle {
-    /* display: inline-block; */
     border: none;
     outline: none;
     box-shadow: 2px 4px 8px rgba(0, 5, 97, 0.1);
@@ -51,13 +51,13 @@ export const TasksStyled = styled.div`
 
   .TaskWrapper {
     display: flex;
-    /* flex-wrap: nowrap; */
-    /* margin-bottom: 10px; */
+    margin-bottom: 20px;
   }
 
   .changeTitleFormActive {
     display: flex;
     width: 100%;
+    height: 31px;
     align-items: center;
     justify-content: space-between;
   }
@@ -148,8 +148,22 @@ export const TasksStyled = styled.div`
     padding-top: 20px;
   }
 
+  .TaskTitleWrapper {
+    font-size: 26px;
+    line-height: 32px;
+  }
+
   /* ============================================= Tablet ================================================================= */
   @media screen and (min-width: 768px) {
+    .changeTitleFormActive {
+      justify-content: flex-start;
+      height: 44px;
+    }
+    .TaskTitleWrapper {
+      font-size: 36px;
+      line-height: 44px;
+    }
+
     .TaskInterfaceContainer {
       border: none;
       border-bottom: 1px solid rgba(24, 28, 39, 0.1);
@@ -158,6 +172,7 @@ export const TasksStyled = styled.div`
     }
     .counterSearchContainer {
       display: flex;
+      justify-content: space-between;
     }
 
     .inputSearch {
@@ -231,6 +246,15 @@ export const TasksStyled = styled.div`
   }
   /* ============================================= Desktop ================================================================= */
   @media screen and (min-width: 1280px) {
+    .discrbtionHoursContainerDesktopHours {
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+    }
+    .SprintTitleBtnEditWrapper {
+      width: 100%;
+      justify-content: space-between;
+    }
     .TaskInterfaceContainer {
       padding-top: 20px;
       width: 100%;
@@ -280,10 +304,12 @@ export const TasksStyled = styled.div`
     .discrbtionHoursContainerDesktop {
       display: flex;
       justify-content: space-between;
+      margin-bottom: 20px;
     }
 
     .SearchDesktop {
       position: relative;
+      /* width:; */
     }
 
     .iconSearchDesktop {
@@ -307,6 +333,9 @@ export const TasksStyled = styled.div`
     }
     .discrbtionHours {
       width: 100px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     .btnAddchartTitleTablet {

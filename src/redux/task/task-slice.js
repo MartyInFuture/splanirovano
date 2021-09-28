@@ -47,15 +47,18 @@ const tasksSlice = createSlice({
           return task;
         }
         task.hoursWasted = payload.wastedHours;
+
         task.hoursWastedPerDay = task?.hoursWastedPerDay.map((itemDate) => {
-          console.log(itemDate);
-          if (itemDate.currentDay) {
-            if (itemDate.currentDay === payload.date.currentDay) {
-              return { ...itemDate, ...payload.date };
-            }
-            return itemDate;
+          if (itemDate.currentDay === payload.currentDate) {
+            return {
+              currentDay: payload.currentDate,
+              singleHoursWasted: (itemDate["singleHoursWasted"] =
+                payload.hours),
+            };
           }
+          return itemDate;
         });
+
         return task;
       });
     },

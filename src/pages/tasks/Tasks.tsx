@@ -24,6 +24,7 @@ import taskSelectors from "../../redux/task/task-selectors";
 import { patchTitleSprint } from "../../redux/task/task-operations";
 import { Redirect } from "react-router";
 import { toast } from "react-toastify";
+import { sprintNameTitleInterface, sprintNameInterface, sprintInterface } from '../../Components/tasks/taskInterfaces/taskInterfaces'
 
 const Tasks = () => {
   const [filterText, setfilterText] = useState("");
@@ -43,42 +44,55 @@ const Tasks = () => {
   const projects = useSelector(projectSelectors.getProjects);
 
   const location = useLocation();
-  const { id } = useParams();
+  const { id }: string = useParams();
   const dispatch = useDispatch();
   const [showInput, setShowInput] = useState(false);
   const [title, setTitle] = useState("");
 
-  // const currentSprint = sprints.find((project) => project._id === id);
-
   const editNameHandle = async () => {
     await setShowInput(true);
-    document.querySelector("#inputChangeTitle").focus();
+    const inputChangeTitle: any | null = document.querySelector("#inputChangeTitle");
+    inputChangeTitle!.focus();
   };
 
-  const changeTitleSubmit = (e) => {
+  const changeTitleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
+    
     if (sprintName !== title || title !== "") {
-      dispatch(
-        patchTitleSprint({
+      const obj: sprintNameInterface = {
           id,
           title: {
             title,
           },
-        })
+        }
+      dispatch(
+        patchTitleSprint(obj)
       );
     }
     setShowInput(false);
   };
 
-  // const onHandleBlurChangeTitle = () => {};
+  const changeTitleClickSubmit = (e: React.MouseEvent<HTMLButtonElement>) => {
+    if (sprintName !== title || title !== "") {
+      const obj: sprintNameInterface = {
+          id,
+          title: {
+            title,
+          },
+        }
+      dispatch(
+        patchTitleSprint(obj)
+      );
+    }
+    setShowInput(false);
+  }
 
-  const onHandleChange = (e) => {
+  const onHandleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
     setTitle(value);
   };
 
-  const Sprint = sprints.filter((sprint) => {
+  const Sprint = sprints.filter((sprint: sprintInterface) => {
     const sprintId = sprint._id ?? sprint.id;
     return sprintId === id;
   });
@@ -104,7 +118,7 @@ const Tasks = () => {
   }, [dispatch, id, isAuth, location.pathname]);
   useEffect(() => {
     if (sprints.length !== 0) {
-      const sprint = sprints.find((item) => {
+      const sprint = sprints.find((item: sprintInterface) => {
         const itemId = item.id ?? item._id;
         return itemId === id;
       });
@@ -133,7 +147,7 @@ const Tasks = () => {
   }, [sprintsArr]);
 
   const projectId = location.pathname.split("/")[2];
-  const filterChange = (e) => {
+  const filterChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const text = e.target.value;
     const Filter = text.toLowerCase();
     setfilterText(Filter);
@@ -172,6 +186,32 @@ const Tasks = () => {
                 </div>
                 <div>
                   <div className="TaskWrapper">
+                    {!showInput && (
+                      <div className="SprintTitleBtnEditWrapper">
+                        <div className="TaskTitleBtnEditWrapper">
+                          <div className="TaskTitleWrapper">
+                            <Title title={sprintName} />
+                          </div>
+                          {/* <div className="TaskTitleWrapper"></div> */}
+                          <div className="btnEditTitle">
+                            <Button
+                              icon="edit"
+                              classBtn="editDelete"
+                              onHandleClick={editNameHandle}
+                            />
+                          </div>
+                        </div>
+
+                        <div className="btnCreateTaskTablet ">
+                          <div className="btnCreateSprintTitle openModalTask btnEdit">
+                            <Button
+                              onHandleClick={() => setCloseModalTask(true)}
+                            />
+                          </div>
+                          <p className="AddTaskParagraph">Створити задачу</p>
+                        </div>
+                      </div>
+                    )}
                     {showInput && (
                       <form
                         onSubmit={changeTitleSubmit}
@@ -188,39 +228,35 @@ const Tasks = () => {
                           type="text"
                           onChange={onHandleChange}
                           id="inputChangeTitle"
-                          // onBlur={onHandleBlurChangeTitle}
                         />
                         <Button
-                          // icon={buttonIcons.edit}
                           icon="edit"
                           classBtn="editDelete"
                           title="Edit the title"
                           type="submit"
                           className="buttonChange"
-                          onHandleClick={changeTitleSubmit}
+                          onHandleClick={changeTitleClickSubmit}
                         />
                       </form>
                     )}
                     <div className="btnCreateTask ">
                       <Button onHandleClick={() => setCloseModalTask(true)} />
                     </div>
-                    <div className="btnCreateTaskTablet ">
-                      <div className="btnCreateSprintTitle openModalTask btnEdit">
-                        <Button onHandleClick={() => setCloseModalTask(true)} />
-                      </div>
-                      <p className="AddTaskParagraph">Створити задачу</p>
-                    </div>
                   </div>
-                  <div className="discrbtionHoursContainer">
+
+                  {/* <div className="discrbtionHoursContainer">
                     <p className="discrbtionHours">Заплановано годин</p>
                     <p className="discrbtionHours">Витрачено год / день</p>
                     <p className="discrbtionHours">Витрачено годин</p>
-                  </div>
+                  </div> */}
                   <div className="discrbtionHoursContainerDesktop">
-                    <p className="discrbtionHours">Задача</p>
-                    <p className="discrbtionHours">Заплановано годин</p>
-                    <p className="discrbtionHours">Витрачено год / день</p>
-                    <p className="discrbtionHours">Витрачено годин</p>
+                    <div className="discrbtionHoursContainerDesktopHours">
+                      <p className="discrbtionHours">Задача</p>
+                      <p className="discrbtionHours">Заплановано годин</p>
+                      <p className="discrbtionHours">Витрачено год / день</p>
+                      <p className="discrbtionHours">Витрачено годин</p>
+                    </div>
+
                     <div className="SearchDesktop">
                       <span className="material-icons iconSearchDesktop">
                         search
