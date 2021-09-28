@@ -10,7 +10,7 @@ import taskSelectors from "../../../redux/task/task-selectors";
 const TaskList = ({ filter, targetDate }) => {
   const tasks = useSelector(taskSelectors.getTasks);
   const dispatch = useDispatch();
-  const { id } = useParams();
+  const { id }: string = useParams();
   const [filtredTasks, setFiltredTasks] = useState([]);
 
   useEffect(() => {
