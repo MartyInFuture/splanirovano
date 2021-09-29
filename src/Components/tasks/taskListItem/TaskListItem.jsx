@@ -9,6 +9,10 @@ import { useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as yup from "yup";
 
+// import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { toast } from "react-toastify";
+
 const schema = yup.object().shape({
   hoursWasted: yup
     .number()
@@ -46,18 +50,13 @@ const TaskListItem = ({ task, targetDate }) => {
   };
 
   useEffect(() => {
-    if (
-      Number(formik.values.hoursWasted) > 0 &&
-      Number(formik.values.hoursWasted) <= 8 &&
-      formik.values.hoursWasted !== ""
-    ) {
-      const taskObj = {
-        date: targetDate,
-        hours: Number(formik.values.hoursWasted),
-      };
-      dispatch(patchTaskHours({ sprintId, taskObj }));
+    if (formik.values.hoursWasted >= 0) {
+      formik.values.hoursWasted = hoursWasted;
+    } else {
+      formik.values.hoursWasted = 0;
     }
-  }, [dispatch, formik.values.hoursWasted, sprintId, targetDate]);
+    // formik.values.hoursWasted = currentDayHour;
+  }, [hoursWasted, currentDayHour]);
 
   useEffect(() => {
     if (task) {
@@ -65,7 +64,6 @@ const TaskListItem = ({ task, targetDate }) => {
         if (item.currentDay === targetDate) {
           setcurrentDayHour(item.singleHoursWasted);
           sethoursWasted(item.singleHoursWasted);
-          // setcurrentDayHour(0);
         }
       });
     }
@@ -76,12 +74,22 @@ const TaskListItem = ({ task, targetDate }) => {
   };
 
   const onBlur = () => {
+    if (
+      Number(formik.values.hoursWasted) >= 0 &&
+      Number(formik.values.hoursWasted) <= 8 &&
+      formik.values.hoursWasted !== ""
+    ) {
+      const taskObj = {
+        date: targetDate,
+        hours: Number(formik.values.hoursWasted),
+      };
+      dispatch(patchTaskHours({ sprintId, taskObj }));
+    }
+
     setIsOpen(false);
-    // console.log("Отрабатывает");
   };
 
   const onHandleClickDesktop = async (e) => {
-    console.log(task._id ?? task.id);
     setSprintId(task._id ?? task.id);
     await setIsOpenDesktop(true);
     focusInputDesktop();
@@ -92,8 +100,39 @@ const TaskListItem = ({ task, targetDate }) => {
   };
 
   const onBlurDesktop = () => {
+    if (
+      Number(formik.values.hoursWasted) >= 0 &&
+      Number(formik.values.hoursWasted) <= 8 &&
+      formik.values.hoursWasted !== ""
+    ) {
+      const taskObj = {
+        date: targetDate,
+        hours: Number(formik.values.hoursWasted),
+      };
+      dispatch(patchTaskHours({ sprintId, taskObj }));
+    }
     setIsOpenDesktop(false);
   };
+
+  useEffect(() => {
+    if (formik.errors.hoursWasted) {
+      if (
+        formik.errors.hoursWasted === "hoursWasted must be a positive number"
+      ) {
+        if (formik.values.hoursWasted !== 0) {
+          toast.warning(
+            "Мінімальний час на виконання однієї задачі - 0 год на день."
+          );
+        }
+      }
+
+      if (formik.errors.hoursWasted === "Должно быть от нуля до 8") {
+        toast.warning(
+          "Максимальний час на виконання однієї задачі - 8 год на день. Не перепрацьовуйте!"
+        );
+      }
+    }
+  }, [formik.errors.hoursWasted]);
 
   return (
     <TaskListItemWrapper>
@@ -123,6 +162,8 @@ const TaskListItem = ({ task, targetDate }) => {
               value={formik.values.hoursWasted}
               className="inputNumber"
               onBlur={onBlur}
+              // min="0"
+              // max="8"
             />
           )}
         </p>
@@ -154,12 +195,10 @@ const TaskListItem = ({ task, targetDate }) => {
             value={formik.values.hoursWasted}
             className="inputNumberDesktop"
             onBlur={onBlurDesktop}
+            // min="0"
           />
         )}
-        <span className="describtionHourNumber">
-          {/* {task.hoursWastedPerDay.map((item) => item.singleHoursWasted)} */}
-          {task.hoursWasted}
-        </span>
+        <span className="describtionHourNumber">{task.hoursWasted}</span>
 
         <div className="BtnDeleteDesktop">
           <Button
