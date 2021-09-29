@@ -110,7 +110,9 @@ const getProjects = createAsyncThunk(
 
 interface IUpdateProjectTitleData {
   id: string;
-  title: string;
+  title: {
+    title: string
+  }
 }
 
 export const updateProjectTitle = createAsyncThunk(

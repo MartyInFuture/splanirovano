@@ -2,9 +2,12 @@ import { ButtonWrapper } from './ButtonStyled';
 
 interface Props {
   onHandleClick: React.MouseEventHandler<HTMLButtonElement>;
+  type?: string;
+  title?: string;
   icon?: string;
   classBtn?: string;
   background?: string;
+  className?: string;
 }
 
 const Button = ({

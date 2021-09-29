@@ -18,6 +18,10 @@ import { useParams } from 'react-router-dom';
 import { Redirect } from 'react-router';
 import { toast } from 'react-toastify';
 
+interface IId {
+  id: string
+}
+
 const SprintPage = () => {
   const [openModalMembers, setOpenModalMembers] = useState(false);
   const [openModalSprints, setOpenModalSprints] = useState(false);
@@ -29,7 +33,7 @@ const SprintPage = () => {
   const [title, setTitle] = useState('title');
   const [description, setDescription] = useState('description');
   const [showInput, setShowInput] = useState(false);
-  const { id } = useParams();
+  const { id }:IId = useParams();
   const currentProject = projects.find(
     (project) => project._id ?? project.id === id
   );
@@ -39,7 +43,7 @@ const SprintPage = () => {
     setShowInput(true);
   };
 
-  const onHandleChange = (e) => {
+  const onHandleChange = (e:React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     switch (name) {
       case 'newTitle':
@@ -62,10 +66,10 @@ const SprintPage = () => {
     }
   }, [projects]);
 
-  const changeTitleSubmit = (e) => {
+  const changeTitleSubmit = (e: React.ChangeEvent<HTMLInputElement> | React.FormEvent<HTMLFormElement> | React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
 
-    if (currentProject.title !== title || title !== '') {
+    if (currentProject?.title !== title || title !== '') {
       dispatch(
         projectOperations.updateProjectTitle({
           id,
