@@ -30,9 +30,10 @@ const SprintPage = () => {
   const [description, setDescription] = useState('description');
   const [showInput, setShowInput] = useState(false);
   const { id } = useParams();
-  const currentProject = projects.find(
-    (project) => project._id ?? project.id === id
-  );
+  const currentProject = projects.find((project) => {
+    const projectId = project._id ?? project.id;
+    return projectId === id;
+  });
   const [redirect, setRedirect] = useState(false);
 
   const editNameHandle = () => {
@@ -61,6 +62,17 @@ const SprintPage = () => {
       }
     }
   }, [projects]);
+
+  // useEffect(() => {
+  //   if (projects.length !== 0) {
+  //     console.log('id new and project here');
+  //     console.log(currentProject.title);
+  //     // const currentProject = projects.find(
+  //     //   (project) => project._id ?? project.id === id
+  //     // );
+  //     setTitle(currentProject.title);
+  //   }
+  // }, [id, projects]);
 
   const changeTitleSubmit = (e) => {
     e.preventDefault();

@@ -122,7 +122,7 @@ const Chart = ({
     labels: labels,
     datasets: [
       {
-        label: 'My First dataset',
+        label: 'Використаний час',
         fill: false,
         lineTension: 0.1,
         backgroundColor: 'rgba(75,192,192,0.4)',
@@ -143,7 +143,7 @@ const Chart = ({
         data: realHovers,
       },
       {
-        label: 'My Second dataset',
+        label: 'Запланований час',
         fill: false,
         lineTension: 0.1,
         backgroundColor: 'rgba(150, 0, 0)',
