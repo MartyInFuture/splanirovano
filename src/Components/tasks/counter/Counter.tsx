@@ -5,13 +5,13 @@ import { sprintInterface } from '../taskInterfaces/taskInterfaces';
 
 interface Props {
   data: sprintInterface;
-  // settargetDate: ;
+  settargetDate: any;
 }
 
 const Counter = ({ data, settargetDate }: Props) => {
   const [counter, setCounter] = useState(1);
   const [startDate, setStartDate] = useState("");
-  const [duration, setDuration] = useState(null);
+  const [duration, setDuration] = useState(0);
   const targetDate = moment(startDate)
     .add(counter - 1, "day")
     .format("DD MM YYYY");
