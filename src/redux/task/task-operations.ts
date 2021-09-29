@@ -123,11 +123,11 @@ interface IPatchTitleSprint {
 export const patchTitleSprint = createAsyncThunk(
   'task/patchTitleSprint',
   async (Data: IPatchTitleSprint, { rejectWithValue }) => {
+    console.log(Data);
     try {
-      const { data } = await axios.patch(
-        `/sprint/title/${Data.id}`,
-        Data.title
-      );
+      const { data } = await axios.patch(`/sprint/title/${Data.id}`, {
+        title: Data.title,
+      });
 
       const response = {
         id: Data.id,

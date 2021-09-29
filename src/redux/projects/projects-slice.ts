@@ -65,7 +65,8 @@ const projectsSlice = createSlice({
     );
     builder.addCase(updateProjectTitle.fulfilled, (state, { payload }) => {
       state.items = state.items.map((project) => {
-        if (project._id ?? project.id === payload.id) {
+        const projectId = project._id ?? project.id;
+        if (projectId === payload.id) {
           project.title = payload.title.newTitle;
         }
         return project;

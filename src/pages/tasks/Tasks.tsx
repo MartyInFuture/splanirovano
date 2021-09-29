@@ -60,6 +60,12 @@ const Tasks = () => {
     inputChangeTitle!.focus();
   };
 
+  useEffect(() => {
+    if (sprint !== null) {
+      setTitle(sprint.title);
+    }
+  }, [sprint]);
+
   const changeTitleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
