@@ -1,13 +1,13 @@
-import { createReducer } from "@reduxjs/toolkit";
-import authOperations from "../auth/auth-operations";
-import projectOperations from "../projects/projects-operations";
+import { createReducer } from '@reduxjs/toolkit';
+import authOperations from '../auth/auth-operations';
+import projectOperations from '../projects/projects-operations';
 import {
   addSprint,
   changeSprintsTitle,
   deleteSprint,
   getProjectsSprints,
-} from "../sprints/sprints-operations";
-import { resetErrorAction } from "./error-action";
+} from '../sprints/sprints-operations';
+import { resetErrorAction } from './error-action';
 
 const setError = (_, { payload }) => payload;
 const resetError = (_, { payload }) => null;
