@@ -16,28 +16,26 @@ interface IChartProps {
   draw: boolean;
 }
 
-interface ISprintsTypes {
-  _id?: string;
-  id?: string;
-  title: string;
-  description: string;
-  duration: any;
-  startDate: string;
-}
-
-interface IHourWastedPerDay {
+interface IHoursWastedPerDay {
+  currentDay: string;
   singleHoursWasted: number;
 }
 
-interface ITasksTypes {
-  _id?: string;
-  id?: string;
+interface IItem {
   title: string;
+  id?: string;
+  _id?: string;
   hoursPlanned: number;
-  hoursWastedPerDay: IHourWastedPerDay[];
-  singleHoursWasted: any;
-  // description: string;
-  // duration: any;
+  hoursWasted: number;
+  hoursWastedPerDay: IHoursWastedPerDay[];
+}
+
+interface ISprintsTypes {
+  _id: string;
+  id: string;
+  title: string;
+  duration: number;
+  startDate: string;
 }
 
 const Chart = ({
@@ -48,7 +46,7 @@ const Chart = ({
 }: IChartProps) => {
   const [labels, setLabels] = useState<string[]>([]);
   const sprints: ISprintsTypes[] = useSelector(sprintSelectors.getSprints);
-  const tasks: ITasksTypes[] = useSelector(taskSelectors.getTasks);
+  const tasks: IItem[] = useSelector(taskSelectors.getTasks);
   const { id }: any = useParams();
   const [planedHours, setPlanedHours] = useState<number[]>([]);
   const [realHovers, setRealHovers] = useState<number[]>([]);
@@ -61,7 +59,8 @@ const Chart = ({
           return sprintId === id;
         });
         const labelsArr: string[] = ['0'];
-        for (let i = 0; i < currentSprint?.duration; i++) {
+        const operationAmount = currentSprint?.duration ?? 0;
+        for (let i = 0; i < operationAmount; i++) {
           const newLabelArrItem: string = moment(currentSprint?.startDate)
             .add(i, 'day')
             .format('YYYY-MM-DD');

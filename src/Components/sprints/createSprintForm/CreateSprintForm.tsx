@@ -18,8 +18,9 @@ type TisActivelastDate = undefined | Date;
 const CreateSprintForm = ({ setOpenModal }: Props) => {
   const [name, setName] = useState<TName>('');
   const [duration, setDuration] = useState<TDuration | string>('');
-  const [isActivelastDate, setIsActiveLastDate] =
-    useState<TisActivelastDate>(undefined);
+  const [isActivelastDate, setIsActiveLastDate] = useState<TisActivelastDate>(
+    new Date()
+  );
   const location = useLocation();
   const projectId: string = location.pathname.split('/')[2];
 
