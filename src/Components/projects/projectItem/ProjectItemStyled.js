@@ -1,5 +1,5 @@
-import styled from "styled-components";
-import bcg from "../../../image/background/wave.png";
+import styled from "styled-components"
+import bcg from "../../../image/background/wave.png"
 
 export const ProjectItemStyled = styled.li`
   position: relative;
@@ -95,10 +95,15 @@ export const ProjectItemStyled = styled.li`
   }
 
   .projectTitle {
-    font-size: 26px;
+    font-size: 16px;
     font-weight: 800;
     letter-spacing: 0.04rem;
+
+    @media (min-width: 768px) {
+      font-size: 26px;
+    }
   }
+
   .projectTextWrapper {
     display: flex;
     align-items: center;
@@ -118,10 +123,16 @@ export const ProjectItemStyled = styled.li`
     transform: translateY(0%);
   }
   .projectTextDescription {
+    font-size: 10px;
+
+    @media (min-width: 768px) {
+      font-size: 14px;
+    }
   }
+
   .projectButtonWrapper {
     position: absolute;
     bottom: 10px;
     right: 10px;
   }
-`;
+`

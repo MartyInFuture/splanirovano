@@ -24,32 +24,10 @@ import taskSelectors from '../../redux/task/task-selectors';
 import { patchTitleSprint } from '../../redux/task/task-operations';
 import { Redirect } from 'react-router';
 import { toast } from 'react-toastify';
-// import {
-//   // sprintNameTitleInterface,
-//   // sprintNameInterface,
-//   sprintInterface,
-// } from '../../Components/tasks/taskInterfaces/taskInterfaces';
-
-// interface sprintNameTitleInterface {
-//   id: string;
-//   title: string;
-// }
 
 interface sprintNameInterface {
   id: string;
   title: string;
-}
-
-interface sprintInterface {
-  tasks: string[];
-  _id: string;
-  id?: string;
-  title: string;
-  startDate: string;
-  endDate: string;
-  duration: number;
-  projectId: string;
-  __v: number;
 }
 
 const Tasks = () => {
@@ -58,7 +36,7 @@ const Tasks = () => {
   const [open, setOpen] = useState(false);
   const [closeModalTask, setCloseModalTask] = useState(false);
   const [targetDate, settargetDate] = useState('');
-  const [sprint, setSprint] = useState(null);
+  const [sprint, setSprint]: any = useState(null);
   const [draw, setDraw] = useState(false);
 
   const [tasksCounter, setTasksCounter] = useState(0);
@@ -81,6 +59,12 @@ const Tasks = () => {
       document.querySelector('#inputChangeTitle');
     inputChangeTitle!.focus();
   };
+
+  useEffect(() => {
+    if (sprint !== null) {
+      setTitle(sprint.title);
+    }
+  }, [sprint]);
 
   const changeTitleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -111,7 +95,7 @@ const Tasks = () => {
     setTitle(value);
   };
 
-  const Sprint = sprints.filter((sprint: sprintInterface) => {
+  const Sprint = sprints.filter((sprint) => {
     const sprintId = sprint._id ?? sprint.id;
     return sprintId === id;
   });
@@ -137,7 +121,7 @@ const Tasks = () => {
   }, [dispatch, id, isAuth, location.pathname]);
   useEffect(() => {
     if (sprints.length !== 0) {
-      const sprint = sprints.find((item: sprintInterface) => {
+      const sprint = sprints.find((item) => {
         const itemId = item.id ?? item._id;
         return itemId === id;
       });

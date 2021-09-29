@@ -7,12 +7,33 @@ interface IAddTaskProps {
   task: object;
 }
 
+interface IHoursWastedPerDay {
+  currentDay: string;
+  singleHoursWasted: number;
+}
+
+interface IItem {
+  title: string;
+  id?: string;
+  _id?: string;
+  hoursPlanned: number;
+  hoursWasted: number;
+  hoursWastedPerDay: IHoursWastedPerDay[];
+}
+
+interface IAddTaskReturnResponce {
+  data: IItem;
+}
+
 export const addTask = createAsyncThunk(
   'task/addTask',
   async ({ sprintId, task }: IAddTaskProps, { dispatch, rejectWithValue }) => {
     try {
-      const { data } = await axios.post(`/task/${sprintId}`, task);
-      return data;
+      const data: IAddTaskReturnResponce = await axios.post(
+        `/task/${sprintId}`,
+        task
+      );
+      return data.data;
     } catch (error: any) {
       dispatch(
         getError({
@@ -26,13 +47,19 @@ export const addTask = createAsyncThunk(
   }
 );
 
+// interface IGetSprintsTasks {
+//   data?: IItem[];
+//   message?: string;
+// }
+
 export const getSprintsTasks = createAsyncThunk(
   'task/getTAsks',
 
   async (sprintId: string, { dispatch, rejectWithValue }) => {
     try {
-      const { data } = await axios.get(`/task/${sprintId}`);
-      return data;
+      const data = await axios.get(`/task/${sprintId}`);
+      const returnedData: any = data.data;
+      return returnedData;
     } catch (error: any) {
       dispatch(
         getError({
@@ -96,11 +123,11 @@ interface IPatchTitleSprint {
 export const patchTitleSprint = createAsyncThunk(
   'task/patchTitleSprint',
   async (Data: IPatchTitleSprint, { rejectWithValue }) => {
+    console.log(Data);
     try {
-      const { data } = await axios.patch(
-        `/sprint/title/${Data.id}`,
-        Data.title
-      );
+      const { data } = await axios.patch(`/sprint/title/${Data.id}`, {
+        title: Data.title,
+      });
 
       const response = {
         id: Data.id,
