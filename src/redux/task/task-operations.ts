@@ -75,7 +75,7 @@ export const getSprintsTasks = createAsyncThunk(
 
 export const deleteSprintsTask = createAsyncThunk(
   'task/deleteTask',
-  async (taskId, { rejectWithValue }) => {
+  async (taskId: string, { rejectWithValue }) => {
     try {
       await axios.delete(`/task/${taskId}`);
       return taskId;
@@ -123,7 +123,7 @@ interface IPatchTitleSprint {
 export const patchTitleSprint = createAsyncThunk(
   'task/patchTitleSprint',
   async (Data: IPatchTitleSprint, { rejectWithValue }) => {
-    console.log(Data);
+    // console.log(Data);
     try {
       const { data } = await axios.patch(`/sprint/title/${Data.id}`, {
         title: Data.title,

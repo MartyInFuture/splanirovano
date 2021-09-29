@@ -13,6 +13,8 @@ import * as yup from "yup";
 import "react-toastify/dist/ReactToastify.css";
 import { toast } from "react-toastify";
 
+import { taskInterface } from '../taskInterfaces/taskInterfaces'
+
 const schema = yup.object().shape({
   hoursWasted: yup
     .number()
@@ -23,30 +25,48 @@ const schema = yup.object().shape({
     .integer(),
 });
 
-const TaskListItem = ({ task, targetDate }) => {
+interface Props {
+  task: taskInterface;
+  targetDate: any;
+}
+
+interface IFormikObjPart {
+  hoursWasted: number | string;
+}
+
+interface IFormikObj {
+  initialValues: IFormikObjPart;
+  validationSchema: any;
+  onSubmit: any;
+}
+
+const TaskListItem = ({ task, targetDate }: Props) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isOpenDesktop, setIsOpenDesktop] = useState(false);
   const [hoursWasted, sethoursWasted] = useState(0);
-  const [sprintId, setSprintId] = useState(null);
+  const [sprintId, setSprintId] = useState("");
   const [currentDayHour, setcurrentDayHour] = useState(0);
-  const formik = useFormik({
+  const FormikObjState: IFormikObj = {
     initialValues: { hoursWasted: 0 },
     validationSchema: schema,
-  });
+    onSubmit: null,
+  };
+  const formik = useFormik(FormikObjState);
   const dispatch = useDispatch();
 
-  const deleteTask = (e) => {
+  const deleteTask = (e: React.MouseEvent<HTMLButtonElement>) => {
     return dispatch(deleteSprintsTask(task._id ?? task.id));
   };
 
-  const onHandleClikc = async (e) => {
+  const onHandleClikc = async (e: React.MouseEvent<HTMLSpanElement>) => {
     setSprintId(task._id ?? task.id);
     await setIsOpen(true);
     focusInput();
   };
 
   const focusInput = () => {
-    return document.getElementById("inputNumber").focus();
+    const inputNumber: any | null = document.getElementById("inputNumber")
+    return inputNumber.focus();
   };
 
   useEffect(() => {
@@ -69,15 +89,15 @@ const TaskListItem = ({ task, targetDate }) => {
     }
   }, [task, targetDate]);
 
-  const onHandleSubmit = (e) => {
-    e.preventDefault();
-  };
+  // const onHandleSubmit = (e) => {
+  //   e.preventDefault();
+  // };
 
   const onBlur = () => {
     if (
       Number(formik.values.hoursWasted) >= 0 &&
       Number(formik.values.hoursWasted) <= 8 &&
-      formik.values.hoursWasted !== ""
+      formik.values.hoursWasted !== null
     ) {
       const taskObj = {
         date: targetDate,
@@ -89,14 +109,15 @@ const TaskListItem = ({ task, targetDate }) => {
     setIsOpen(false);
   };
 
-  const onHandleClickDesktop = async (e) => {
+  const onHandleClickDesktop = async (e: React.MouseEvent<HTMLSpanElement>) => {
     setSprintId(task._id ?? task.id);
     await setIsOpenDesktop(true);
     focusInputDesktop();
   };
 
   const focusInputDesktop = () => {
-    return document.getElementById("inputNumberDesktop").focus();
+    const inputNumberDesktop: any | null = document.getElementById("inputNumberDesktop");
+    return inputNumberDesktop.focus();
   };
 
   const onBlurDesktop = () => {
