@@ -1,6 +1,6 @@
 import { setErrorStatus } from './../../helpers/function';
 import axios from "axios";
-import { AsyncThunkAction, createAsyncThunk } from "@reduxjs/toolkit";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import { projectLogOut } from "../projects/projects-slice";
 import RootState, { AppDispatch } from "./../store";
 

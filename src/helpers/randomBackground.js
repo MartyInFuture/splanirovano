@@ -5,7 +5,5 @@ let i = randomIndex;
 export const randomBackgroud = (colors) => {
   const indColors = colors.length - 1;
   indColors > i ? i++ : (i = 0);
-
-  console.log(`i ===>>>`, i);
   return colors[i];
 };

@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction  } from "@reduxjs/toolkit"
+import { createSlice } from "@reduxjs/toolkit"
 import { IAuthInitialState } from "../interfaces/interfacesStore";
 import authOperations from "./auth-operations"
 
