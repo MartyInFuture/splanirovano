@@ -6,18 +6,24 @@ import { useDispatch } from "react-redux";
 import { getSprintsTasks } from "../../../redux/task/task-operations";
 import { useParams } from "react-router-dom";
 import taskSelectors from "../../../redux/task/task-selectors";
+import { taskInterface } from '../taskInterfaces/taskInterfaces'
 
-const TaskList = ({ filter, targetDate }) => {
+interface Props {
+  filter: string;
+  targetDate: string;
+}
+
+const TaskList = ({ filter, targetDate }: Props) => {
   const tasks = useSelector(taskSelectors.getTasks);
   const dispatch = useDispatch();
-  const { id } = useParams();
+  const { id }: any = useParams();
   const [filtredTasks, setFiltredTasks] = useState([]);
 
   useEffect(() => {
     dispatch(getSprintsTasks(id));
   }, [dispatch, id]);
   useEffect(() => {
-    const res = tasks.filter((task) => task.title?.includes(filter));
+    const res = tasks.filter((task: taskInterface) => task.title?.includes(filter));
     setFiltredTasks(res);
   }, [filter, tasks]);
 
@@ -25,7 +31,7 @@ const TaskList = ({ filter, targetDate }) => {
     <TasklistStyled>
       {filtredTasks.length === 0 &&
         filter.length === 0 &&
-        tasks.map((item) => (
+        tasks.map((item: taskInterface) => (
           <TaskListItem
             key={item._id ?? item.id}
             task={item}
@@ -33,7 +39,7 @@ const TaskList = ({ filter, targetDate }) => {
           />
         ))}
       {filtredTasks.length > 0 &&
-        filtredTasks.map((item) => (
+        filtredTasks.map((item: taskInterface) => (
           <TaskListItem
             key={item._id ?? item.id}
             task={item}
