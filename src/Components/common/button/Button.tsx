@@ -5,6 +5,9 @@ interface Props {
   icon?: string;
   classBtn?: string;
   background?: string;
+  title?: string;
+  type?: string;
+  className?: string;
 }
 
 const Button = ({

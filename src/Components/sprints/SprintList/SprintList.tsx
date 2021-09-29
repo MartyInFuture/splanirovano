@@ -1,7 +1,21 @@
 import SprintListItem from "../SprintListItem/SprintListItem"
 import { SprintListStyled } from "./SprintListStyled"
 
-const SprintList = ({ sprints }) => {
+type ListId = {
+  startDate: string;
+    endDate: string;
+    _id: string;
+    id: string;
+    title: string;
+    duration: number;
+}
+
+interface Props{
+  sprints: ListId[];
+  
+}
+
+const SprintList = ({ sprints }:Props) => {
   return (
     <>
       <SprintListStyled>
