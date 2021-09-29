@@ -73,7 +73,7 @@ export const changeSprintsTitle = createAsyncThunk(
 
 export const deleteSprint = createAsyncThunk(
   'sprint/deleteSprint',
-  async (sprintId, { dispatch, rejectWithValue }) => {
+  async (sprintId: string, { dispatch, rejectWithValue }) => {
     try {
       await axios.delete(`/sprint/${sprintId}`);
       return sprintId;
@@ -81,7 +81,7 @@ export const deleteSprint = createAsyncThunk(
       dispatch(
         getError({
           error,
-          cb: () => deleteSprint(),
+          cb: () => deleteSprint(sprintId),
           operationType: 'sprint/deleteSprint',
         })
       );
