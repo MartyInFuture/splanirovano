@@ -30,7 +30,7 @@ interface sprintNameInterface {
   title: string;
 }
 
-// interface ITargetDate { 
+// interface ITargetDate {
 // let targetDate: string;
 // let settargetDate: any;
 // }
@@ -325,7 +325,12 @@ const Tasks = () => {
             </div>
           </TasksStyled>
 
-          <Chart open={open} setOpen={() => setOpen(false)} draw={draw} />
+          <Chart
+            open={open}
+            setOpen={() => setOpen(false)}
+            draw={draw}
+            title={title}
+          />
 
           <CreateTask
             closeModal={closeModalTask}

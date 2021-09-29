@@ -55,7 +55,8 @@ const sprintsSlice = createSlice({
     });
     builder.addCase(patchTitleSprint.fulfilled, (state, { payload }) => {
       state.items = state.items.map((sprint) => {
-        if (sprint._id ?? sprint.id === payload.id) {
+        const sprintId = sprint._id ?? sprint.id;
+        if (sprintId === payload.id) {
           sprint.title = payload.title.newTitle;
         }
         return sprint;
