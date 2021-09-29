@@ -5,24 +5,34 @@ import { addTask } from "../../../redux/task/task-operations";
 import SubmitButton from "../../common/submitButton/SubmitButton";
 import { WrapperForm } from "./TaskFormStyled";
 import { useParams } from "react-router";
+import { toast } from "react-toastify";
 
-const TaskForm = ({ setCloseModal }) => {
+interface ICloseModalProps {
+  setCloseModal: (active: boolean) => void;
+}
+
+interface IId {
+  id: string;
+}
+
+const TaskForm = ({ setCloseModal } : ICloseModalProps) => {
   const [title, setTitle] = useState("");
   const [hoursPlanned, setHoursPlanned] = useState("");
-  const { id } = useParams();
+  const { id } = useParams<IId>();
 
-  const handleChangeTitle = (e) => {
-    setTitle(e.currentTarget.value);
+  const handleChangeTitle = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    setTitle(evt.currentTarget.value);
   };
 
-  const handleHoursPlanned = (e) => {
-    setHoursPlanned(e.currentTarget.value);
+
+  const handleHoursPlanned = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    setHoursPlanned(evt.currentTarget.value);  
   };
 
   const dispatch = useDispatch();
 
-  const onHandleSubmit = (e) => {
-    e.preventDefault();
+  const onHandleSubmit = (evt:React.FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
     dispatch(addTask({ sprintId: id, task: { title, hoursPlanned } }));
     setTitle("");
     setHoursPlanned("");
