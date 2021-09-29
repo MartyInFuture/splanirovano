@@ -44,7 +44,7 @@ const TaskList = ({ filter, targetDate }: Props) => {
     <TasklistStyled>
       {filtredTasks.length === 0 &&
         filter.length === 0 &&
-        tasks.map((item) => (
+        tasks.map((item: any) => (
           <TaskListItem
             key={item._id ?? item.id}
             task={item}
@@ -52,7 +52,7 @@ const TaskList = ({ filter, targetDate }: Props) => {
           />
         ))}
       {filtredTasks.length > 0 &&
-        filtredTasks.map((item) => (
+        filtredTasks.map((item: any) => (
           <TaskListItem
             key={item._id ?? item.id}
             task={item}

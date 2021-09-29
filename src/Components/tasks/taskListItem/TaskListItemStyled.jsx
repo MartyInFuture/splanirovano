@@ -56,6 +56,7 @@ export const TaskListItemWrapper = styled.div`
     line-height: 1.12;
     width: 60px;
     border-bottom: 1px solid rgba(24, 28, 39, 0.2);
+    cursor: pointer;
   }
   .BtnDelete {
     position: absolute;
