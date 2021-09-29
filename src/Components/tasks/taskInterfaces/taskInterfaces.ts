@@ -1,5 +1,4 @@
 export interface sprintNameTitleInterface {
-<<<<<<< HEAD
       title: string;
     }
 
@@ -35,10 +34,9 @@ export interface taskInterface {
     __v: number;
 }
     
-=======
-  id: string;
-  title: string;
-}
+//   id: string;
+//   title: string;
+// }
 
 export interface sprintNameInterface {
   id: string;
@@ -56,4 +54,3 @@ export interface sprintInterface {
   projectId: string;
   __v: number;
 }
->>>>>>> d6a12ffabd0d466eefa1f165686c96b6335abcea

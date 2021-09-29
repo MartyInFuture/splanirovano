@@ -8,10 +8,15 @@ import { useParams } from "react-router-dom";
 import taskSelectors from "../../../redux/task/task-selectors";
 import { taskInterface } from '../taskInterfaces/taskInterfaces'
 
-const TaskList = ({ filter, targetDate }) => {
+interface Props {
+  filter: string;
+  targetDate: string;
+}
+
+const TaskList = ({ filter, targetDate }: Props) => {
   const tasks = useSelector(taskSelectors.getTasks);
   const dispatch = useDispatch();
-  const { id }: string = useParams();
+  const { id }: any = useParams();
   const [filtredTasks, setFiltredTasks] = useState([]);
 
   useEffect(() => {
