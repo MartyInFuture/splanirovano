@@ -8,11 +8,26 @@ import { useParams } from "react-router-dom";
 import moment from "moment";
 import "moment/locale/uk";
 
-const SprintListItem = ({ sprint }) => {
+interface Props{
+  sprint: {
+    startDate: string;
+    endDate: string;
+    _id: string;
+    id: string;
+    title: string;
+    duration: number;
+  };
+}
+
+interface IId{
+  id: string;
+}
+
+const SprintListItem = ({ sprint }:Props) => {
   moment.locale("uk");
   const startFormatDate = moment(sprint.startDate).format("D MMM");
   const endFormatDate = moment(sprint.endDate).format("D MMM");
-  const { id } = useParams();
+  const { id}:IId = useParams();
   const dispatch = useDispatch();
   const handleClick = () => {
     dispatch(deleteSprint(sprint.id ?? sprint._id));
