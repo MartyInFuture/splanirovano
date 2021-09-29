@@ -74,7 +74,6 @@ const SprintPage = () => {
               </>
             )}
           </div>
-
           <SprintList />
         </article>
       </SprintStyled>
